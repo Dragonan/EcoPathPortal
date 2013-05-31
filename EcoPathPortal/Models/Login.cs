@@ -25,6 +25,8 @@ namespace EcoPathPortal.Models
         [Display(Name = "Remember on this computer")]
         public bool RememberMe { get; set; }
 
+        public int FailedLogins { get; set; }
+
         /// <summary>
         /// Checks if user with given password exists in the database
         /// </summary>

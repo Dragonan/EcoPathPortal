@@ -26,8 +26,14 @@ namespace EcoPathPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(Models.Login _login)
+        [RecaptchaControlMvc.CaptchaValidator]
+        public ActionResult Login(Models.Login _login, bool captchaValid, string captchaErrorMessage)
         {
+            if (Convert.ToInt32(Session["FailedLogins"]) > 3 && !captchaValid)
+            {
+                ModelState.AddModelError("captcha", captchaErrorMessage);
+            }
+
             if (ModelState.IsValid)
             {
                 User_Account user = _login.IsValid(_login.UserName, _login.Password);
@@ -40,6 +46,7 @@ namespace EcoPathPortal.Controllers
                         return View(_login);
                     }
                     FormsAuthentication.SetAuthCookie(_login.UserName, _login.RememberMe);
+                    Session.Contents.Remove("FailedLogins");
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -47,6 +54,11 @@ namespace EcoPathPortal.Controllers
                     ModelState.AddModelError("userError", "Login data is incorrect!");
                 }
             }
+
+            if (Session["FailedLogins"] != null)
+                Session["FailedLogins"] = Convert.ToInt32(Session["FailedLogins"]) + 1;
+            else Session["FailedLogins"] = 1;
+
             return View(_login);
         }
 
@@ -136,6 +148,6 @@ namespace EcoPathPortal.Controllers
                     return View();
                 }
             }
-        } 
+        }
     }
 }
