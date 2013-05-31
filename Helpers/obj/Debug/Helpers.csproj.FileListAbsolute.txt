@@ -1,0 +1,5 @@
+C:\Users\John Spasov\documents\visual studio 2010\Projects\EcoPathPortal\Helpers\bin\Debug\Helpers.dll
+C:\Users\John Spasov\documents\visual studio 2010\Projects\EcoPathPortal\Helpers\bin\Debug\Helpers.pdb
+C:\Users\John Spasov\documents\visual studio 2010\Projects\EcoPathPortal\Helpers\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\John Spasov\documents\visual studio 2010\Projects\EcoPathPortal\Helpers\obj\Debug\Helpers.dll
+C:\Users\John Spasov\documents\visual studio 2010\Projects\EcoPathPortal\Helpers\obj\Debug\Helpers.pdb

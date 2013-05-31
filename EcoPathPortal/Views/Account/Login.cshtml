@@ -1,0 +1,38 @@
+﻿@model EcoPathPortal.Models.Login
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "Login failed. Check your login details.")
+
+    <div>
+        <fieldset>
+            <legend>Login</legend>
+            <div class="editor-label">
+                @Html.ValidationMessage("userError")
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(l => l.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(l => l.UserName)
+                @Html.ValidationMessageFor(l => l.UserName)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(l => l.Password)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(l => l.Password)
+                @Html.ValidationMessageFor(l => l.Password)
+            </div>
+            <div class="editor-label">
+                @Html.CheckBoxFor(l => l.RememberMe)
+                @Html.LabelFor(l => l.RememberMe)
+            </div>
+            <input type="submit" value="Log In" />
+        </fieldset>
+    </div>
+}

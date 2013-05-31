@@ -1,0 +1,52 @@
+﻿@model EcoPathPortal.Models.Register
+@{
+    ViewBag.Title = "Register";
+}
+
+@using Recaptcha;
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "Registration failed.")
+
+    <div>
+        <fieldset>
+            <legend>Registration</legend>
+            <div class="editor-label">
+                @Html.LabelFor(r => r.UserName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(r => r.UserName)
+                @Html.ValidationMessageFor(r => r.UserName)
+                @Html.ValidationMessage("Username")
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(r => r.Email)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(r => r.Email)
+                @Html.ValidationMessageFor(r => r.Email)
+                @Html.ValidationMessage("Email")
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(r => r.Password)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(r => r.Password)
+                @Html.ValidationMessageFor(r => r.Password)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(r => r.ComparePassword)
+            </div>
+            <div class="editor-field">
+                @Html.PasswordFor(r => r.ComparePassword)
+                @Html.ValidationMessageFor(r => r.ComparePassword)
+            </div>
+            <div class="editor-field">
+                @Html.Raw(Html.GenerateCaptcha("captcha", "white"))
+                @Html.ValidationMessage("captcha")
+            </div>
+            <input type="submit" value="Register" />
+        </fieldset>
+    </div>
+}
