@@ -1,16 +1,16 @@
 ﻿@model EcoPathPortal.Models.Login
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Вход";
 }
 
 @using Recaptcha;
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "Login failed. Check your login details.")
+    @Html.ValidationSummary(true, "Въвели сте грешни данни.")
 
     <div>
-        <fieldset>
+        <fieldset style="display: inline-block">
             <legend>Login</legend>
             <div class="editor-label">
                 @Html.ValidationMessage("userError")
@@ -39,11 +39,11 @@
                     @Html.Raw(Html.GenerateCaptcha("captcha", "white"))
                     @Html.ValidationMessage("captcha")
                 </div>
-                <input type="submit" value="Log In" />
+                <input type="submit" value="Влез" />
             }
             else
             {
-                <input type="submit" value="Log In" />
+                <input type="submit" value="Влез" />
             }
         </fieldset>
     </div>

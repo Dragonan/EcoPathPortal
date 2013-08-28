@@ -1,16 +1,16 @@
 ﻿@model EcoPathPortal.Models.Register
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Регистрация";
 }
 
 @using Recaptcha;
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "Registration failed.")
+    @Html.ValidationSummary(true, "Регистрацията е неуспешна.")
 
     <div>
-        <fieldset>
+        <fieldset style="display: inline-block">
             <legend>Registration</legend>
             <div class="editor-label">
                 @Html.LabelFor(r => r.UserName)
@@ -46,7 +46,7 @@
                 @Html.Raw(Html.GenerateCaptcha("captcha", "white"))
                 @Html.ValidationMessage("captcha")
             </div>
-            <input type="submit" value="Register" />
+            <input type="submit" value="Запази" />
         </fieldset>
     </div>
 }

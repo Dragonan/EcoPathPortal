@@ -1,6 +1,20 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Начало";
 }
 
-<h2>Index</h2>
-Welcome to the site!
+<div style="text-align:center; margin:0 auto;">
+    <h2>Добре Дошли в Сайта!</h2>
+</div>
+
+<div style="float:left">
+    
+    <fieldset><legend>Еко Пътеки:</legend>
+    @{
+        EcoPathPortal.Models.EcoPathDBEntities _context = new EcoPathPortal.Models.EcoPathDBEntities();
+        foreach(var ecoPath in _context.EcoPaths)
+        {
+            @Html.ActionLink(ecoPath.Name, "Index", "EcoPath", new { id = ecoPath.Id }, new { }) <br /><br />
+        }
+    }
+    </fieldset>
+</div>

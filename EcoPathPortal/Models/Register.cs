@@ -12,37 +12,35 @@ namespace EcoPathPortal.Models
     {
         EcoPathDBEntities _context = new EcoPathDBEntities();
 
-        [Required(ErrorMessage = "You must enter an username")]
-        [Display(Name = "User name")]
-        [StringLength(25, ErrorMessage="The {0} must be between {2} and {1} characters long", MinimumLength=5)]
+        [Required(ErrorMessage = "Трябва да въведете потребителско име")]
+        [Display(Name = "Потребителско име")]
+        [StringLength(25, ErrorMessage="{0} трябва да е между {2} и {1} символа", MinimumLength=5)]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "You must enter an email address")]
-        [Display(Name = "Email")]
-        [DataType(DataType.EmailAddress, ErrorMessage="Please enter a valid email address")]
+        [Required(ErrorMessage = "Трябва да въведете e-mail")]
+        [Display(Name = "E-mail")]
+        [DataType(DataType.EmailAddress, ErrorMessage="Трябва да въведете валиден e-mail адрес")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "You must enter a password")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        [StringLength(25, ErrorMessage = "The {0} must be between {2} and {1} characters long", MinimumLength = 5)]
+        [Required(ErrorMessage = "Трябва да въведете парола")]
+        [Display(Name = "Парола")]
+        [DataType(DataType.Password, ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [StringLength(25, ErrorMessage = "{0} трябва да е между {2} и {1} символа", MinimumLength = 5)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "You must confirm the password")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage="The passwords must match")]
+        [Required(ErrorMessage = "Трябва да потвърдите паролата")]
+        [Display(Name = "Повторете Паролата")]
+        [Compare("Password", ErrorMessage="Паролите не съвпадат")]
         public string ComparePassword { get; set; }
 
         /// <summary>
         /// Checks if the user name is already taken
         /// </summary>
-        /// <param name="_username">User name</param>
         /// <returns>True if it is taken, False if it is free</returns>
-        public bool NameExists(String _username)
+        public bool NameExists()
         {
             var result = from ua in _context.User_Accounts
-                         where ua.Username == _username
+                         where ua.Username == UserName
                          select ua;
 
             return result.Any();
@@ -51,12 +49,11 @@ namespace EcoPathPortal.Models
         /// <summary>
         /// Checks if the email is already taken
         /// </summary>
-        /// <param name="_email">User email</param>
         /// <returns>True if it is taken, False if it is free</returns>
-        public bool EmailExists(String _email)
+        public bool EmailExists()
         {
             var result = from ua in _context.User_Accounts
-                         where ua.Email == _email
+                         where ua.Email == Email
                          select ua;
 
             return result.Any();
@@ -65,15 +62,17 @@ namespace EcoPathPortal.Models
         /// <summary>
         /// Adds the new user into the database
         /// </summary>
-        /// <param name="_username">User name</param>
-        /// <param name="_password">User password</param>
-        /// <param name="_email">User email</param>
-        public void Create(String _username, String _password, String _email)
+        public void Create()
         {
-            User_Account newUser = User_Account.CreateUser_Account(Guid.NewGuid(), _username,
-                Helpers.SHA1.Encode(_password), DateTime.Now, _email, false);
+            User_Account newUser = User_Account.CreateUser_Account(Guid.NewGuid(), UserName,
+                Helpers.SHA1.Encode(Password), DateTime.Now, Email, false);
 
             _context.AddToUser_Accounts(newUser);
+            _context.SaveChanges();
+
+            User_Info newUserInfo = User_Info.CreateUser_Info(newUser.Id);
+
+            _context.AddToUser_Info(newUserInfo);
             _context.SaveChanges();
         }
     }

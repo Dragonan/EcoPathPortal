@@ -7,6 +7,7 @@ using System.Web.Security;
 using System.Web.UI;
 using Recaptcha;
 using System.Text.RegularExpressions;
+using EcoPathPortal.Models;
 
 namespace EcoPathPortal.Controllers
 {
@@ -36,12 +37,12 @@ namespace EcoPathPortal.Controllers
 
             if (ModelState.IsValid)
             {
-                User_Account user = _login.IsValid(_login.UserName, _login.Password);
+                User_Account user = _login.IsValid();
                 if (user != null)
                 {
                     if (!user.Confirmed)
                     {
-                        ModelState.AddModelError("userError", "User has not been confirmed. A new verification email has been sent.");
+                        ModelState.AddModelError("userError", "Този потребителски акаунт не е потвърден. Изпратено е ново съобщение за потвърждение на посочения e-mail.");
                         EmailManager.SendConfirmationEmail(_login.UserName);
                         return View(_login);
                     }
@@ -51,7 +52,7 @@ namespace EcoPathPortal.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("userError", "Login data is incorrect!");
+                    ModelState.AddModelError("userError", "Въвели сте грешни данни!");
                 }
             }
 
@@ -86,19 +87,19 @@ namespace EcoPathPortal.Controllers
             if (ModelState.IsValid)
             {
                 bool valid = true;
-                if(_register.NameExists(_register.UserName))
+                if(_register.NameExists())
                 {
-                    ModelState.AddModelError("Username", "Username already exists");
+                    ModelState.AddModelError("Username", "Това име се използва от друг потребител.");
                     valid = false;
                 }
-                if (_register.EmailExists(_register.Email))
+                if (_register.EmailExists())
                 {
-                    ModelState.AddModelError("Email", "Email is taken");
+                    ModelState.AddModelError("Email", "Този e-mail се използва от друг потребител.");
                     valid = false;
                 }
                 if (valid)
                 {
-                    _register.Create(_register.UserName, _register.Password, _register.Email);
+                    _register.Create();
                     EmailManager.SendConfirmationEmail(_register.UserName);
                     return RedirectToAction("RegSuccessful", "Account");
                 }
@@ -116,7 +117,7 @@ namespace EcoPathPortal.Controllers
         {
             if (string.IsNullOrEmpty(id) || (!Regex.IsMatch(id, @"[0-9a-f]{8}\-([0-9a-f]{4}\-){3}[0-9a-f]{12}")))
             {
-                ViewBag.Msg = "Broken link error";
+                ViewBag.Msg = "Грешен линк";
                 return View();
             }
             else
@@ -131,20 +132,21 @@ namespace EcoPathPortal.Controllers
                     {
                         user.Confirmed = true;
                         _context.SaveChanges();
+                        ViewBag.Msg = "Вие успешно потвърдихте Вашият потребителски акаунт! Ще бъдете прехвърлени на началната страница след 5 секунди.";
                         FormsAuthentication.SetAuthCookie(user.Username, false);
-                        return RedirectToAction("Index", "Home");
+                        return View();
                     }
                     else
                     {
                         FormsAuthentication.SignOut();
-                        ViewBag.Msg = "Account Already Approved";
+                        ViewBag.Msg = "Този потребителски акаунт е вече потвърден";
                         return View();
                     }
                 }
                 else
                 {
                     FormsAuthentication.SignOut();
-                    ViewBag.Msg = "User id does not exist";
+                    ViewBag.Msg = "Не съществува потребител с този код.";
                     return View();
                 }
             }

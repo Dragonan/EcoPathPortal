@@ -1,0 +1,95 @@
+﻿@using System.Web.Mvc
+@model EcoPathPortal.Models.User
+@{
+    ViewBag.Title = User.Identity.Name;
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "Регистрацията е неуспешна.")
+    @Html.HiddenFor(m => m.id)
+    <div>
+        <fieldset style="display: inline-block">
+            <legend>Профил</legend>
+            <div class="editor-label">
+                @Html.ValidationMessage("invalidPassword")
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.FirstName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.FirstName)
+                @Html.ValidationMessageFor(m => m.FirstName)
+                @Html.ValidationMessage("Име")
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.MiddleName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.MiddleName)
+                @Html.ValidationMessageFor(m => m.MiddleName)
+                @Html.ValidationMessage("Презиме")
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.LastName)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.LastName)
+                @Html.ValidationMessageFor(m => m.LastName)
+                @Html.ValidationMessage("Фамилия")
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(m => m.SelectedCity)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(m => m.SelectedCity, Model.GetCities())
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(m => m.Age)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.Age)
+                @Html.ValidationMessageFor(m => m.Age)
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(m => m.Gender)
+            </div>
+            <div class="editor-field">
+                @Html.RadioButtonFor(m => m.Gender, 'm') Мъж
+                @Html.RadioButtonFor(m => m.Gender, 'f') Жена
+            </div>
+            <div>
+                <fieldset style="display: inline-block">
+                    <legend>Промяна на парола</legend>
+                    <div class="editor-label">
+                        @Html.LabelFor(r => r.OldPassword)
+                    </div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(r => r.OldPassword)
+                        @Html.ValidationMessageFor(r => r.OldPassword)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(r => r.NewPassword)
+                    </div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(r => r.NewPassword)
+                        @Html.ValidationMessageFor(r => r.NewPassword)
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(r => r.ComparePassword)
+                    </div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(r => r.ComparePassword)
+                        @Html.ValidationMessageFor(r => r.ComparePassword)
+                    </div>
+                </fieldset>
+            </div>
+            <input type="submit" value="Запази" />
+            <a href="@Url.Action("Index", "Home")">
+                <button>Отказ</button>
+            </a>
+        </fieldset>
+    </div>
+}

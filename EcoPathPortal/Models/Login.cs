@@ -13,31 +13,26 @@ namespace EcoPathPortal.Models
     {
         EcoPathDBEntities _context = new EcoPathDBEntities();
 
-        [Required(ErrorMessage="You must enter your username")]
-        [Display(Name = "User name")]
+        [Required(ErrorMessage="Трябва да въведете потребителско име")]
+        [Display(Name = "Потребителско име")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "You must enter your password")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Required(ErrorMessage = "Трябва да въведете парола")]
+        [Display(Name = "Парола")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember on this computer")]
+        [Display(Name = "Запомни ме")]
         public bool RememberMe { get; set; }
-
-        public int FailedLogins { get; set; }
 
         /// <summary>
         /// Checks if user with given password exists in the database
         /// </summary>
-        /// <param name="_username">User name</param>
-        /// <param name="_password">User password</param>
         /// <returns>The user data if found, else null</returns>
-        public User_Account IsValid(string _username, string _password)
+        public User_Account IsValid()
         {
-            _password = Helpers.SHA1.Encode(_password);
+            Password = Helpers.SHA1.Encode(Password);
             var result = (from ua in _context.User_Accounts
-                          where (ua.Username == _username) && (ua.Password == _password)
+                          where (ua.Username == UserName) && (ua.Password == Password)
                           select ua).FirstOrDefault();
              
             return result;

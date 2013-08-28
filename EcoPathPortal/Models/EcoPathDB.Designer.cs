@@ -16,8 +16,18 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+#region EDM Relationship Metadata
 
-namespace EcoPathPortal
+[assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_User_Info_Cities", "City", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(EcoPathPortal.Models.City), "User_Info", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.User_Info), true)]
+[assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_User_Info_User_Accounts", "User_Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.User_Account), "User_Info", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(EcoPathPortal.Models.User_Info), true)]
+[assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_EcoPath_Cities", "City", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(EcoPathPortal.Models.City), "EcoPath", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.EcoPath), true)]
+[assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_Comments_EcoPath", "EcoPath", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.EcoPath), "Comment", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.Comment), true)]
+[assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_Comments_User_Accounts", "User_Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.User_Account), "Comment", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.Comment), true)]
+[assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_Images_EcoPath", "EcoPath", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.EcoPath), "Image", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.Image), true)]
+
+#endregion
+
+namespace EcoPathPortal.Models
 {
     #region Contexts
     
@@ -80,6 +90,86 @@ namespace EcoPathPortal
             }
         }
         private ObjectSet<User_Account> _User_Accounts;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<City> Cities
+        {
+            get
+            {
+                if ((_Cities == null))
+                {
+                    _Cities = base.CreateObjectSet<City>("Cities");
+                }
+                return _Cities;
+            }
+        }
+        private ObjectSet<City> _Cities;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<User_Info> User_Info
+        {
+            get
+            {
+                if ((_User_Info == null))
+                {
+                    _User_Info = base.CreateObjectSet<User_Info>("User_Info");
+                }
+                return _User_Info;
+            }
+        }
+        private ObjectSet<User_Info> _User_Info;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<EcoPath> EcoPaths
+        {
+            get
+            {
+                if ((_EcoPaths == null))
+                {
+                    _EcoPaths = base.CreateObjectSet<EcoPath>("EcoPaths");
+                }
+                return _EcoPaths;
+            }
+        }
+        private ObjectSet<EcoPath> _EcoPaths;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Comment> Comments
+        {
+            get
+            {
+                if ((_Comments == null))
+                {
+                    _Comments = base.CreateObjectSet<Comment>("Comments");
+                }
+                return _Comments;
+            }
+        }
+        private ObjectSet<Comment> _Comments;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Image> Images
+        {
+            get
+            {
+                if ((_Images == null))
+                {
+                    _Images = base.CreateObjectSet<Image>("Images");
+                }
+                return _Images;
+            }
+        }
+        private ObjectSet<Image> _Images;
 
         #endregion
         #region AddTo Methods
@@ -91,6 +181,46 @@ namespace EcoPathPortal
         {
             base.AddObject("User_Accounts", user_Account);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Cities EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCities(City city)
+        {
+            base.AddObject("Cities", city);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the User_Info EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToUser_Info(User_Info user_Info)
+        {
+            base.AddObject("User_Info", user_Info);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the EcoPaths EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToEcoPaths(EcoPath ecoPath)
+        {
+            base.AddObject("EcoPaths", ecoPath);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Comments EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToComments(Comment comment)
+        {
+            base.AddObject("Comments", comment);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Images EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToImages(Image image)
+        {
+            base.AddObject("Images", image);
+        }
 
         #endregion
     }
@@ -99,6 +229,852 @@ namespace EcoPathPortal
     #endregion
     
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="EcoPathDBModel", Name="City")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class City : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new City object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        public static City CreateCity(global::System.Int32 id, global::System.String name)
+        {
+            City city = new City();
+            city.Id = id;
+            city.Name = name;
+            return city;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String EngName
+        {
+            get
+            {
+                return _EngName;
+            }
+            set
+            {
+                OnEngNameChanging(value);
+                ReportPropertyChanging("EngName");
+                _EngName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("EngName");
+                OnEngNameChanged();
+            }
+        }
+        private global::System.String _EngName;
+        partial void OnEngNameChanging(global::System.String value);
+        partial void OnEngNameChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_User_Info_Cities", "User_Info")]
+        public EntityCollection<User_Info> User_Info
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User_Info>("EcoPathDBModel.FK_User_Info_Cities", "User_Info");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User_Info>("EcoPathDBModel.FK_User_Info_Cities", "User_Info", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_EcoPath_Cities", "EcoPath")]
+        public EntityCollection<EcoPath> EcoPaths
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<EcoPath>("EcoPathDBModel.FK_EcoPath_Cities", "EcoPath");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<EcoPath>("EcoPathDBModel.FK_EcoPath_Cities", "EcoPath", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="EcoPathDBModel", Name="Comment")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Comment : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Comment object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="userId">Initial value of the UserId property.</param>
+        /// <param name="ecoPathId">Initial value of the EcoPathId property.</param>
+        /// <param name="text">Initial value of the Text property.</param>
+        public static Comment CreateComment(global::System.Int32 id, global::System.Guid userId, global::System.Int32 ecoPathId, global::System.String text)
+        {
+            Comment comment = new Comment();
+            comment.Id = id;
+            comment.UserId = userId;
+            comment.EcoPathId = ecoPathId;
+            comment.Text = text;
+            return comment;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private global::System.Guid _UserId;
+        partial void OnUserIdChanging(global::System.Guid value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 EcoPathId
+        {
+            get
+            {
+                return _EcoPathId;
+            }
+            set
+            {
+                OnEcoPathIdChanging(value);
+                ReportPropertyChanging("EcoPathId");
+                _EcoPathId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EcoPathId");
+                OnEcoPathIdChanged();
+            }
+        }
+        private global::System.Int32 _EcoPathId;
+        partial void OnEcoPathIdChanging(global::System.Int32 value);
+        partial void OnEcoPathIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Text
+        {
+            get
+            {
+                return _Text;
+            }
+            set
+            {
+                OnTextChanging(value);
+                ReportPropertyChanging("Text");
+                _Text = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Text");
+                OnTextChanged();
+            }
+        }
+        private global::System.String _Text;
+        partial void OnTextChanging(global::System.String value);
+        partial void OnTextChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> Date
+        {
+            get
+            {
+                return _Date;
+            }
+            set
+            {
+                OnDateChanging(value);
+                ReportPropertyChanging("Date");
+                _Date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Date");
+                OnDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _Date;
+        partial void OnDateChanging(Nullable<global::System.DateTime> value);
+        partial void OnDateChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Comments_EcoPath", "EcoPath")]
+        public EcoPath EcoPath
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EcoPath>("EcoPathDBModel.FK_Comments_EcoPath", "EcoPath").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EcoPath>("EcoPathDBModel.FK_Comments_EcoPath", "EcoPath").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<EcoPath> EcoPathReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EcoPath>("EcoPathDBModel.FK_Comments_EcoPath", "EcoPath");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<EcoPath>("EcoPathDBModel.FK_Comments_EcoPath", "EcoPath", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Comments_User_Accounts", "User_Account")]
+        public User_Account User_Accounts
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_Comments_User_Accounts", "User_Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_Comments_User_Accounts", "User_Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User_Account> User_AccountsReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_Comments_User_Accounts", "User_Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User_Account>("EcoPathDBModel.FK_Comments_User_Accounts", "User_Account", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="EcoPathDBModel", Name="EcoPath")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class EcoPath : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new EcoPath object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="rating">Initial value of the Rating property.</param>
+        public static EcoPath CreateEcoPath(global::System.Int32 id, global::System.Double rating)
+        {
+            EcoPath ecoPath = new EcoPath();
+            ecoPath.Id = id;
+            ecoPath.Rating = rating;
+            return ecoPath;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> Latitude
+        {
+            get
+            {
+                return _Latitude;
+            }
+            set
+            {
+                OnLatitudeChanging(value);
+                ReportPropertyChanging("Latitude");
+                _Latitude = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Latitude");
+                OnLatitudeChanged();
+            }
+        }
+        private Nullable<global::System.Double> _Latitude;
+        partial void OnLatitudeChanging(Nullable<global::System.Double> value);
+        partial void OnLatitudeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> Longitude
+        {
+            get
+            {
+                return _Longitude;
+            }
+            set
+            {
+                OnLongitudeChanging(value);
+                ReportPropertyChanging("Longitude");
+                _Longitude = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Longitude");
+                OnLongitudeChanged();
+            }
+        }
+        private Nullable<global::System.Double> _Longitude;
+        partial void OnLongitudeChanging(Nullable<global::System.Double> value);
+        partial void OnLongitudeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> NearestCity
+        {
+            get
+            {
+                return _NearestCity;
+            }
+            set
+            {
+                OnNearestCityChanging(value);
+                ReportPropertyChanging("NearestCity");
+                _NearestCity = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("NearestCity");
+                OnNearestCityChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _NearestCity;
+        partial void OnNearestCityChanging(Nullable<global::System.Int32> value);
+        partial void OnNearestCityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String LinkToMoreInfo
+        {
+            get
+            {
+                return _LinkToMoreInfo;
+            }
+            set
+            {
+                OnLinkToMoreInfoChanging(value);
+                ReportPropertyChanging("LinkToMoreInfo");
+                _LinkToMoreInfo = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("LinkToMoreInfo");
+                OnLinkToMoreInfoChanged();
+            }
+        }
+        private global::System.String _LinkToMoreInfo;
+        partial void OnLinkToMoreInfoChanging(global::System.String value);
+        partial void OnLinkToMoreInfoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double Rating
+        {
+            get
+            {
+                return _Rating;
+            }
+            set
+            {
+                OnRatingChanging(value);
+                ReportPropertyChanging("Rating");
+                _Rating = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Rating");
+                OnRatingChanged();
+            }
+        }
+        private global::System.Double _Rating;
+        partial void OnRatingChanging(global::System.Double value);
+        partial void OnRatingChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_EcoPath_Cities", "City")]
+        public City City
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<City>("EcoPathDBModel.FK_EcoPath_Cities", "City").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<City>("EcoPathDBModel.FK_EcoPath_Cities", "City").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<City> CityReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<City>("EcoPathDBModel.FK_EcoPath_Cities", "City");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<City>("EcoPathDBModel.FK_EcoPath_Cities", "City", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Comments_EcoPath", "Comment")]
+        public EntityCollection<Comment> Comments
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Comment>("EcoPathDBModel.FK_Comments_EcoPath", "Comment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Comment>("EcoPathDBModel.FK_Comments_EcoPath", "Comment", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Images_EcoPath", "Image")]
+        public EntityCollection<Image> Images
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Image>("EcoPathDBModel.FK_Images_EcoPath", "Image");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Image>("EcoPathDBModel.FK_Images_EcoPath", "Image", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="EcoPathDBModel", Name="Image")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Image : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Image object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="ecoPathId">Initial value of the EcoPathId property.</param>
+        /// <param name="folderPath">Initial value of the FolderPath property.</param>
+        public static Image CreateImage(global::System.Int32 id, global::System.Int32 ecoPathId, global::System.String folderPath)
+        {
+            Image image = new Image();
+            image.Id = id;
+            image.EcoPathId = ecoPathId;
+            image.FolderPath = folderPath;
+            return image;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 EcoPathId
+        {
+            get
+            {
+                return _EcoPathId;
+            }
+            set
+            {
+                OnEcoPathIdChanging(value);
+                ReportPropertyChanging("EcoPathId");
+                _EcoPathId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EcoPathId");
+                OnEcoPathIdChanged();
+            }
+        }
+        private global::System.Int32 _EcoPathId;
+        partial void OnEcoPathIdChanging(global::System.Int32 value);
+        partial void OnEcoPathIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FolderPath
+        {
+            get
+            {
+                return _FolderPath;
+            }
+            set
+            {
+                OnFolderPathChanging(value);
+                ReportPropertyChanging("FolderPath");
+                _FolderPath = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("FolderPath");
+                OnFolderPathChanged();
+            }
+        }
+        private global::System.String _FolderPath;
+        partial void OnFolderPathChanging(global::System.String value);
+        partial void OnFolderPathChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Images_EcoPath", "EcoPath")]
+        public EcoPath EcoPath
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EcoPath>("EcoPathDBModel.FK_Images_EcoPath", "EcoPath").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EcoPath>("EcoPathDBModel.FK_Images_EcoPath", "EcoPath").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<EcoPath> EcoPathReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EcoPath>("EcoPathDBModel.FK_Images_EcoPath", "EcoPath");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<EcoPath>("EcoPathDBModel.FK_Images_EcoPath", "EcoPath", value);
+                }
+            }
+        }
+
+        #endregion
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -283,6 +1259,347 @@ namespace EcoPathPortal
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_User_Info_User_Accounts", "User_Info")]
+        public User_Info User_Info
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Info>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Info").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Info>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Info").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User_Info> User_InfoReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Info>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Info");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User_Info>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Info", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Comments_User_Accounts", "Comment")]
+        public EntityCollection<Comment> Comments
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Comment>("EcoPathDBModel.FK_Comments_User_Accounts", "Comment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Comment>("EcoPathDBModel.FK_Comments_User_Accounts", "Comment", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="EcoPathDBModel", Name="User_Info")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class User_Info : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new User_Info object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        public static User_Info CreateUser_Info(global::System.Guid id)
+        {
+            User_Info user_Info = new User_Info();
+            user_Info.Id = id;
+            return user_Info;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String FirstName
+        {
+            get
+            {
+                return _FirstName;
+            }
+            set
+            {
+                OnFirstNameChanging(value);
+                ReportPropertyChanging("FirstName");
+                _FirstName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("FirstName");
+                OnFirstNameChanged();
+            }
+        }
+        private global::System.String _FirstName;
+        partial void OnFirstNameChanging(global::System.String value);
+        partial void OnFirstNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String MiddleName
+        {
+            get
+            {
+                return _MiddleName;
+            }
+            set
+            {
+                OnMiddleNameChanging(value);
+                ReportPropertyChanging("MiddleName");
+                _MiddleName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("MiddleName");
+                OnMiddleNameChanged();
+            }
+        }
+        private global::System.String _MiddleName;
+        partial void OnMiddleNameChanging(global::System.String value);
+        partial void OnMiddleNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String LastName
+        {
+            get
+            {
+                return _LastName;
+            }
+            set
+            {
+                OnLastNameChanging(value);
+                ReportPropertyChanging("LastName");
+                _LastName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("LastName");
+                OnLastNameChanged();
+            }
+        }
+        private global::System.String _LastName;
+        partial void OnLastNameChanging(global::System.String value);
+        partial void OnLastNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> City
+        {
+            get
+            {
+                return _City;
+            }
+            set
+            {
+                OnCityChanging(value);
+                ReportPropertyChanging("City");
+                _City = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("City");
+                OnCityChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _City;
+        partial void OnCityChanging(Nullable<global::System.Int32> value);
+        partial void OnCityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int16> Age
+        {
+            get
+            {
+                return _Age;
+            }
+            set
+            {
+                OnAgeChanging(value);
+                ReportPropertyChanging("Age");
+                _Age = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Age");
+                OnAgeChanged();
+            }
+        }
+        private Nullable<global::System.Int16> _Age;
+        partial void OnAgeChanging(Nullable<global::System.Int16> value);
+        partial void OnAgeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Gender
+        {
+            get
+            {
+                return _Gender;
+            }
+            set
+            {
+                OnGenderChanging(value);
+                ReportPropertyChanging("Gender");
+                _Gender = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Gender");
+                OnGenderChanged();
+            }
+        }
+        private global::System.String _Gender;
+        partial void OnGenderChanging(global::System.String value);
+        partial void OnGenderChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_User_Info_Cities", "City")]
+        public City City1
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<City>("EcoPathDBModel.FK_User_Info_Cities", "City").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<City>("EcoPathDBModel.FK_User_Info_Cities", "City").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<City> City1Reference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<City>("EcoPathDBModel.FK_User_Info_Cities", "City");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<City>("EcoPathDBModel.FK_User_Info_Cities", "City", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_User_Info_User_Accounts", "User_Account")]
+        public User_Account User_Accounts
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User_Account> User_AccountsReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User_Account>("EcoPathDBModel.FK_User_Info_User_Accounts", "User_Account", value);
+                }
+            }
+        }
+
+        #endregion
     }
 
     #endregion
