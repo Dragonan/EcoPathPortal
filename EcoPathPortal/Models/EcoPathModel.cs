@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Script.Serialization;
-using System.Web.WebPages.Html;
 
 namespace EcoPathPortal.Models
 {
@@ -56,6 +54,24 @@ namespace EcoPathPortal.Models
             }
 
             return Cities;
+        }
+
+        public Dictionary<String, String> GetImages()
+        {
+            var images = (from i in _context.Images
+                where i.EcoPathId == entId
+                select i).ToList();
+            var imagePaths = new Dictionary<String, String>();
+
+            foreach (var item in images)
+            {
+                var localPath = "~/Content/Images/" + entId + "/" + item.ImageName;
+                    
+                if (!imagePaths.ContainsKey(localPath))
+                    imagePaths.Add(localPath, item.Title);
+            }
+
+            return imagePaths;
         }
     }
 }

@@ -146,8 +146,21 @@
       <DependentUpon>EcoPathDB.mdf</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\backbox.css" />
+    <Content Include="Content\close1.gif" />
+    <Content Include="Content\close2.gif" />
+    <Content Include="Content\loading.gif" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\start.gif" />
+    <Content Include="Content\stop.gif" />
     <Content Include="Global.asax" />
+    <Content Include="Content\JavaScript\customsignsfooter.js" />
+    <Content Include="Content\JavaScript\customsignsheader.js" />
+    <Content Include="Content\JavaScript\dhtmlHistory.js" />
+    <Content Include="Content\JavaScript\effects.js" />
+    <Content Include="Content\JavaScript\lightbox.js" />
+    <Content Include="Content\JavaScript\prototype.compressed.js" />
+    <Content Include="Content\JavaScript\scriptaculous.js" />
     <Content Include="RecaptchaNet.ReadMe.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -202,6 +215,9 @@
   <ItemGroup>
     <Content Include="Views\EcoPath\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Images\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -216,10 +232,10 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63890</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <DevelopmentServerVPath>/EcoPathPortal/</DevelopmentServerVPath>
           <IISUrl>http://localhost/EcoPathPortal</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>

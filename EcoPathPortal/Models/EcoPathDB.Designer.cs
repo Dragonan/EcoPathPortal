@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -24,6 +25,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_Comments_EcoPath", "EcoPath", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.EcoPath), "Comment", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.Comment), true)]
 [assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_Comments_User_Accounts", "User_Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.User_Account), "Comment", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.Comment), true)]
 [assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_Images_EcoPath", "EcoPath", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.EcoPath), "Image", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.Image), true)]
+[assembly: EdmRelationshipAttribute("EcoPathDBModel", "FK_Images_Users", "User_Account", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(EcoPathPortal.Models.User_Account), "Image", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(EcoPathPortal.Models.Image), true)]
 
 #endregion
 
@@ -172,6 +174,7 @@ namespace EcoPathPortal.Models
         private ObjectSet<Image> _Images;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -223,11 +226,11 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -254,6 +257,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -332,6 +336,7 @@ namespace EcoPathPortal.Models
         partial void OnEngNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -380,6 +385,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -410,6 +416,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -536,6 +543,7 @@ namespace EcoPathPortal.Models
         partial void OnDateChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -616,6 +624,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -642,6 +651,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -840,6 +850,7 @@ namespace EcoPathPortal.Models
         partial void OnRatingChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -926,6 +937,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -942,18 +954,21 @@ namespace EcoPathPortal.Models
         /// Create a new Image object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="userId">Initial value of the UserId property.</param>
         /// <param name="ecoPathId">Initial value of the EcoPathId property.</param>
-        /// <param name="folderPath">Initial value of the FolderPath property.</param>
-        public static Image CreateImage(global::System.Int32 id, global::System.Int32 ecoPathId, global::System.String folderPath)
+        /// <param name="imageName">Initial value of the ImageName property.</param>
+        public static Image CreateImage(global::System.Int32 id, global::System.Guid userId, global::System.Int32 ecoPathId, global::System.String imageName)
         {
             Image image = new Image();
             image.Id = id;
+            image.UserId = userId;
             image.EcoPathId = ecoPathId;
-            image.FolderPath = folderPath;
+            image.ImageName = imageName;
             return image;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -988,6 +1003,30 @@ namespace EcoPathPortal.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
+        public global::System.Guid UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private global::System.Guid _UserId;
+        partial void OnUserIdChanging(global::System.Guid value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
         public global::System.Int32 EcoPathId
         {
             get
@@ -1010,28 +1049,53 @@ namespace EcoPathPortal.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String FolderPath
+        public global::System.String Title
         {
             get
             {
-                return _FolderPath;
+                return _Title;
             }
             set
             {
-                OnFolderPathChanging(value);
-                ReportPropertyChanging("FolderPath");
-                _FolderPath = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("FolderPath");
-                OnFolderPathChanged();
+                OnTitleChanging(value);
+                ReportPropertyChanging("Title");
+                _Title = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Title");
+                OnTitleChanged();
             }
         }
-        private global::System.String _FolderPath;
-        partial void OnFolderPathChanging(global::System.String value);
-        partial void OnFolderPathChanged();
+        private global::System.String _Title;
+        partial void OnTitleChanging(global::System.String value);
+        partial void OnTitleChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ImageName
+        {
+            get
+            {
+                return _ImageName;
+            }
+            set
+            {
+                OnImageNameChanging(value);
+                ReportPropertyChanging("ImageName");
+                _ImageName = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ImageName");
+                OnImageNameChanged();
+            }
+        }
+        private global::System.String _ImageName;
+        partial void OnImageNameChanging(global::System.String value);
+        partial void OnImageNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1072,8 +1136,47 @@ namespace EcoPathPortal.Models
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Images_Users", "User_Account")]
+        public User_Account User_Accounts
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_Images_Users", "User_Account").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_Images_Users", "User_Account").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User_Account> User_AccountsReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User_Account>("EcoPathDBModel.FK_Images_Users", "User_Account");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User_Account>("EcoPathDBModel.FK_Images_Users", "User_Account", value);
+                }
+            }
+        }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1108,6 +1211,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1258,6 +1362,7 @@ namespace EcoPathPortal.Models
         partial void OnConfirmedChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1320,8 +1425,31 @@ namespace EcoPathPortal.Models
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("EcoPathDBModel", "FK_Images_Users", "Image")]
+        public EntityCollection<Image> Images
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Image>("EcoPathDBModel.FK_Images_Users", "Image");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Image>("EcoPathDBModel.FK_Images_Users", "Image", value);
+                }
+            }
+        }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1346,6 +1474,7 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1520,6 +1649,7 @@ namespace EcoPathPortal.Models
         partial void OnGenderChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1600,8 +1730,10 @@ namespace EcoPathPortal.Models
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

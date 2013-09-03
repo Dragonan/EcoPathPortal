@@ -28,6 +28,10 @@
             <End Role="EcoPath" EntitySet="EcoPath" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
+          <AssociationSet Name="FK_Images_Users" Association="EcoPathDBModel.Store.FK_Images_Users">
+            <End Role="User_Accounts" EntitySet="User_Accounts" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_Info_User_Accounts" Association="EcoPathDBModel.Store.FK_User_Info_User_Accounts">
             <End Role="Cities" EntitySet="Cities" />
             <End Role="User_Info" EntitySet="User_Info" />
@@ -69,8 +73,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EcoPathId" Type="int" Nullable="false" />
-          <Property Name="FolderPath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImageName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="User_Accounts">
           <Key>
@@ -143,6 +149,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Images_Users">
+          <End Role="User_Accounts" Type="EcoPathDBModel.Store.User_Accounts" Multiplicity="1" />
+          <End Role="Images" Type="EcoPathDBModel.Store.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Info_User_Accounts">
           <End Role="Cities" Type="EcoPathDBModel.Store.Cities" Multiplicity="0..1" />
           <End Role="User_Info" Type="EcoPathDBModel.Store.User_Info" Multiplicity="*" />
@@ -177,7 +195,6 @@
             <End Role="EcoPath" EntitySet="EcoPaths" />
           </AssociationSet>
           <EntitySet Name="Comments" EntityType="EcoPathDBModel.Comment" />
-          <EntitySet Name="Images" EntityType="EcoPathDBModel.Image" />
           <AssociationSet Name="FK_Comments_EcoPath" Association="EcoPathDBModel.FK_Comments_EcoPath">
             <End Role="EcoPath" EntitySet="EcoPaths" />
             <End Role="Comment" EntitySet="Comments" />
@@ -186,11 +203,16 @@
             <End Role="User_Account" EntitySet="User_Accounts" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
+          <EntitySet Name="Images" EntityType="EcoPathDBModel.Image" />
           <AssociationSet Name="FK_Images_EcoPath" Association="EcoPathDBModel.FK_Images_EcoPath">
             <End Role="EcoPath" EntitySet="EcoPaths" />
             <End Role="Image" EntitySet="Images" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_Images_Users" Association="EcoPathDBModel.FK_Images_Users">
+            <End Role="User_Account" EntitySet="User_Accounts" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="User_Account">
           <Key>
             <PropertyRef Name="Id" />
@@ -203,6 +225,7 @@
           <Property Name="Confirmed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User_Info" Relationship="EcoPathDBModel.FK_User_Info_User_Accounts" FromRole="User_Account" ToRole="User_Info" />
           <NavigationProperty Name="Comments" Relationship="EcoPathDBModel.FK_Comments_User_Accounts" FromRole="User_Account" ToRole="Comment" />
+          <NavigationProperty Name="Images" Relationship="EcoPathDBModel.FK_Images_Users" FromRole="User_Account" ToRole="Image" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -292,15 +315,6 @@
           <NavigationProperty Name="User_Accounts" Relationship="EcoPathDBModel.FK_Comments_User_Accounts" FromRole="Comment" ToRole="User_Account" />
           <Property Type="DateTime" Name="Date" />
         </EntityType>
-        <EntityType Name="Image">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="EcoPathId" Nullable="false" />
-          <Property Type="String" Name="FolderPath" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EcoPath" Relationship="EcoPathDBModel.FK_Images_EcoPath" FromRole="Image" ToRole="EcoPath" />
-        </EntityType>
         <Association Name="FK_Comments_EcoPath">
           <End Type="EcoPathDBModel.EcoPath" Role="EcoPath" Multiplicity="1" />
           <End Type="EcoPathDBModel.Comment" Role="Comment" Multiplicity="*" />
@@ -325,6 +339,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Guid" Name="UserId" Nullable="false" />
+          <Property Type="Int32" Name="EcoPathId" Nullable="false" />
+          <Property Type="String" Name="Title" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ImageName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EcoPath" Relationship="EcoPathDBModel.FK_Images_EcoPath" FromRole="Image" ToRole="EcoPath" />
+          <NavigationProperty Name="User_Accounts" Relationship="EcoPathDBModel.FK_Images_Users" FromRole="Image" ToRole="User_Account" />
+        </EntityType>
         <Association Name="FK_Images_EcoPath">
           <End Type="EcoPathDBModel.EcoPath" Role="EcoPath" Multiplicity="1" />
           <End Type="EcoPathDBModel.Image" Role="Image" Multiplicity="*" />
@@ -337,7 +363,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Images_Users">
+          <End Type="EcoPathDBModel.User_Account" Role="User_Account" Multiplicity="1" />
+          <End Type="EcoPathDBModel.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User_Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -401,8 +439,10 @@
           <EntitySetMapping Name="Images">
             <EntityTypeMapping TypeName="EcoPathDBModel.Image">
               <MappingFragment StoreEntitySet="Images">
-                <ScalarProperty Name="FolderPath" ColumnName="FolderPath" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="EcoPathId" ColumnName="EcoPathId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -442,23 +482,30 @@
         <EntityTypeShape EntityType="EcoPathDBModel.EcoPath" Width="1.5" PointX="3" PointY="3.75" Height="2.7494921874999996" />
         <AssociationConnector Association="EcoPathDBModel.FK_EcoPath_Cities" >
           <ConnectorPoint PointX="2.375" PointY="3.3552864583333326" />
-          <ConnectorPoint PointX="3" PointY="3.75" />
+          <ConnectorPoint PointX="3" PointY="3.7499999999999991" />
         </AssociationConnector>
         <EntityTypeShape EntityType="EcoPathDBModel.Comment" Width="1.5" PointX="5.125" PointY="4.125" Height="2.1725878906249996" />
-        <EntityTypeShape EntityType="EcoPathDBModel.Image" Width="1.5" PointX="0.75" PointY="4.125" Height="1.7879850260416674" />
         <AssociationConnector Association="EcoPathDBModel.FK_Comments_EcoPath" >
-          <ConnectorPoint PointX="4.5" PointY="5.2112939453125" />
-          <ConnectorPoint PointX="5.125" PointY="5.2112939453125" />
+          <ConnectorPoint PointX="4.5" PointY="5.3074446614583328" />
+          <ConnectorPoint PointX="5.125" PointY="5.3074446614583328" />
         </AssociationConnector>
         <AssociationConnector Association="EcoPathDBModel.FK_Comments_User_Accounts" >
-          <ConnectorPoint PointX="5.875" PointY="3.5571907552083331" />
+          <ConnectorPoint PointX="5.875" PointY="3.7494921875" />
           <ConnectorPoint PointX="5.875" PointY="4.125" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="EcoPathDBModel.Image" Width="1.5" PointX="0.625" PointY="4.25" Height="2.364889322916667" />
         <AssociationConnector Association="EcoPathDBModel.FK_Images_EcoPath" >
-          <ConnectorPoint PointX="3" PointY="5.0189925130208337" />
-          <ConnectorPoint PointX="2.25" PointY="5.0189925130208337" />
+          <ConnectorPoint PointX="3" PointY="5.4324446614583337" />
+          <ConnectorPoint PointX="2.125" PointY="5.4324446614583337" />
         </AssociationConnector>
-      </Diagram>
+        <AssociationConnector Association="EcoPathDBModel.FK_Images_Users" >
+          <ConnectorPoint PointX="5.125" PointY="3.6557421874999996" />
+          <ConnectorPoint PointX="2.9340829869587219" PointY="3.6557421874999991" />
+          <ConnectorPoint PointX="2.767416320292055" PointY="3.6557421874999996" />
+          <ConnectorPoint PointX="0.71875" PointY="3.6557421874999996" />
+          <ConnectorPoint PointX="0.71875" PointY="4.25" />
+        </AssociationConnector>
+        </Diagram>
     </Diagrams>
   </Designer>
 </edmx:Edmx>

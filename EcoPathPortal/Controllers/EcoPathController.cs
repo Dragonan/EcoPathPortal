@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EcoPathPortal.Models;
+using System.IO;
 
 namespace EcoPathPortal.Controllers
 {
@@ -32,25 +33,92 @@ namespace EcoPathPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Models.EcoPathModel model)
+        public ActionResult Index(Models.EcoPathModel model, HttpPostedFileBase file)
         {
-            var newComment = new Comment();
             var _context = new EcoPathDBEntities();
 
-            newComment.EcoPathId = model.entId;
             var id = (from u in _context.User_Accounts
                       where u.Username == User.Identity.Name
                       select u.Id).FirstOrDefault();
 
             if (id != null)
             {
-                newComment.UserId = id;
-                newComment.Text = model.newCommText;
-                newComment.Date = DateTime.Now;
-                _context.Comments.AddObject(newComment);
-                _context.SaveChanges();
+                if (!String.IsNullOrEmpty(model.newCommText))
+                {
+                    var newComment = new Comment
+                    {
+                        EcoPathId = model.entId,
+                        UserId = id,
+                        Text = model.newCommText,
+                        Date = DateTime.Now
+                    };
+
+                    _context.Comments.AddObject(newComment);
+                    _context.SaveChanges();
+                }
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var fileTitle = fileName.Substring(0, fileName.LastIndexOf('.'));
+                    var folderPath = HttpRuntime.AppDomainAppPath + @"\Content\Images\" + model.entId;
+
+                    var count = 1;
+                    while (System.IO.File.Exists(Path.Combine(folderPath, fileName)))
+                    {
+                        var imageName = fileName.Substring(0, fileName.LastIndexOf('.'));
+                        var imageType = fileName.Substring(fileName.LastIndexOf('.'));
+                        fileName = imageName + "(" + count + ")" + imageType;
+                    }
+                    var path = Path.Combine(folderPath, fileName);
+                    file.SaveAs(path);
+
+                    var newImage = new Image
+                    {
+                        EcoPathId = 1,
+                        UserId = id,
+                        ImageName = fileName,
+                        Title = fileTitle
+                    };
+
+                    _context.Images.AddObject(newImage);
+                    _context.SaveChanges();
+                }
             }
             return RedirectToAction("Index", new { id = model.entId });
         }
+
+        //[HttpPost]
+        //public ActionResult Index(HttpPostedFileBase file)
+        //{
+        //    var _context = new EcoPathDBEntities();
+
+        //    var id = (from u in _context.User_Accounts
+        //              where u.Username == User.Identity.Name
+        //              select u.Id).FirstOrDefault();
+        //    if (id != null)
+        //    {
+        //        if (file != null && file.ContentLength > 0)
+        //        {
+        //            var fileName = Path.GetFileName(file.FileName);
+        //            var path = Path.Combine(HttpRuntime.AppDomainAppPath + @"\Content\Images", fileName);
+        //            file.SaveAs(path);
+
+        //            var newImage = new Image
+        //            {
+        //                EcoPathId = 1,
+        //                UserId = id,
+        //                ImageName = fileName,
+        //                Title = fileName.Substring(0, fileName.LastIndexOf('.'))
+        //            };
+
+        //            _context.Images.AddObject(newImage);
+        //        }
+
+        //        _context.SaveChanges();
+        //    }
+
+        //    return RedirectToAction("Index", new { id = 1 });
+        //}
     }
 }

@@ -3,8 +3,14 @@
 @{
     ViewBag.Title = "Еко Пътека";
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "EcoPath", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    <link rel="stylesheet" href="@Url.Content("~/Content/backbox.css")" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/prototype.compressed.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/scriptaculous.js?load=effects")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/lightbox.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/dhtmlHistory.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/customsignsheader.js")"></script>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <style type="text/css">
       html { height: 100% }
@@ -106,6 +112,26 @@
         <br />
         <br />
         </div>
+        @{
+    var images = Model.GetImages();
+                    
+            <div style="margin: 0 auto; text-align:center;" onclick="dhtmlHistory.add('location1',{message: 'backbox'});countdown()">
+            <a href="@Url.Content(images.First().Key)" rel="lightbox[slide]" caption="@images.First().Value">
+            <img src="@Url.Content(images.First().Key)" alt="lime" width="400" height="300" border="0" /></a>
+            </div>
+                
+    foreach (var image in images)
+    {
+                <a href="@Url.Content(image.Key)" rel="lightbox[slide]" caption="@image.Value"></a>
+    }
+        }
+        <div style="text-align:center; margin: 0 auto;">
+           @if (Request.IsAuthenticated)
+           {
+                <input type="file" name="file" />
+                <input type="submit" value="Качи" />
+           }
+        </div>
         <div style="margin: 0 auto;">
         <table style="text-align:center; margin: 0 auto;">
         @if (Request.IsAuthenticated)
@@ -118,7 +144,7 @@
                     @Html.TextAreaFor(m => m.newCommText)
                 </td>
                 <td>
-                    <input type="submit" value="submit" />
+                    <input type="submit" value="Публикувай" />
                 </td>
             </tr>
         }
@@ -136,4 +162,5 @@
         </table>
         </div>
     </div>
+    <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/customsignsfooter.js")"></script>
 }
