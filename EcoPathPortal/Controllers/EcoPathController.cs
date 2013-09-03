@@ -87,38 +87,5 @@ namespace EcoPathPortal.Controllers
             }
             return RedirectToAction("Index", new { id = model.entId });
         }
-
-        //[HttpPost]
-        //public ActionResult Index(HttpPostedFileBase file)
-        //{
-        //    var _context = new EcoPathDBEntities();
-
-        //    var id = (from u in _context.User_Accounts
-        //              where u.Username == User.Identity.Name
-        //              select u.Id).FirstOrDefault();
-        //    if (id != null)
-        //    {
-        //        if (file != null && file.ContentLength > 0)
-        //        {
-        //            var fileName = Path.GetFileName(file.FileName);
-        //            var path = Path.Combine(HttpRuntime.AppDomainAppPath + @"\Content\Images", fileName);
-        //            file.SaveAs(path);
-
-        //            var newImage = new Image
-        //            {
-        //                EcoPathId = 1,
-        //                UserId = id,
-        //                ImageName = fileName,
-        //                Title = fileName.Substring(0, fileName.LastIndexOf('.'))
-        //            };
-
-        //            _context.Images.AddObject(newImage);
-        //        }
-
-        //        _context.SaveChanges();
-        //    }
-
-        //    return RedirectToAction("Index", new { id = 1 });
-        //}
     }
 }

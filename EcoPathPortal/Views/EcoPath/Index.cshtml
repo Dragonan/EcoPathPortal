@@ -31,7 +31,7 @@
             // Instantiate a directions service.
             directionsService = new google.maps.DirectionsService();
 
-            // Create a map and center it on Manhattan.
+            // Create a map and center it on the Eco Path.
             var mapOptions = {
                 center: new google.maps.LatLng(@(Model.Entity.Latitude),@(Model.Entity.Longitude)),
                 zoom: 8,
@@ -61,7 +61,7 @@
             markerArray = [];
 
             // Retrieve the start and end locations and create
-            // a DirectionsRequest using WALKING directions.
+            // a DirectionsRequest using DRIVING directions.
             var start = document.getElementById('PathCity').value + ", Bulgaria";
             var end = @(Model.Entity.Latitude.ToString()) + ", " + @(Model.Entity.Longitude);
             var request = {

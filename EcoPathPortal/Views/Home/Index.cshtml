@@ -3,6 +3,48 @@
     ViewBag.Title = "Начало";
 }
 
+@{
+    EcoPathPortal.Models.EcoPathDBEntities _context = new EcoPathPortal.Models.EcoPathDBEntities();
+}
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0; padding: 0 }
+    #map-canvas { height: 100% }
+</style>
+<script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO5aHEtpeBnTHzFqOf4psGhCzeMXRNsTc&sensor=false&v=3">
+</script>
+<script type="text/javascript">
+    function initialize() {
+        var mapOptions = {
+            center: new google.maps.LatLng(42.734909,25.488281),
+            zoom: 7,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        
+        @foreach(var ecoPath in _context.EcoPaths)
+        { <text>createMarker(@ecoPath.Latitude, @ecoPath.Longitude, '@(ecoPath.Name)', @ecoPath.Id);</text> }
+
+        function createMarker(lat, lng, name, id) {
+            markerLoc = new google.maps.LatLng(lat, lng);
+            marker = new google.maps.Marker({
+                position: markerLoc,
+                map: map,
+                title: name
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                window.location.href = '@Url.Action("Index", "EcoPath")' + '/' + id;
+            });
+        }
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
 <div style="text-align:center; margin:0 auto;">
     <h2>Добре Дошли в Сайта!</h2>
 </div>
@@ -10,15 +52,12 @@
 <div style="float:left">
     
     <fieldset><legend>Еко Пътеки:</legend>
-        @{
-            EcoPathPortal.Models.EcoPathDBEntities _context = new EcoPathPortal.Models.EcoPathDBEntities();
-            foreach(var ecoPath in _context.EcoPaths)
-            {
-                @Html.ActionLink(ecoPath.Name, "Index", "EcoPath", new { id = ecoPath.Id }, new { }) <br /><br />
-            }
+        @foreach(var ecoPath in _context.EcoPaths)
+        {
+            @Html.ActionLink(ecoPath.Name, "Index", "EcoPath", new { id = ecoPath.Id }, new { }) <br /><br />
         }
     </fieldset>
 </div>
 
-<div>
+<div style="float:left; height:500px; width:40%; margin: 0 auto;" id="map-canvas">
 </div>
