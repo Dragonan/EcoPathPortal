@@ -12,11 +12,6 @@
     <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/dhtmlHistory.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/customsignsheader.js")"></script>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 100% }
-    </style>
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO5aHEtpeBnTHzFqOf4psGhCzeMXRNsTc&sensor=false&v=3">
     </script>
@@ -101,66 +96,72 @@
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 
-    <div>
-        @Html.HiddenFor(m => m.entId)
-        <div style="text-align:center; margin: 0 auto;">@Model.Entity.Name</div>
-        <div style="height:500px; width:40%; margin: 0 auto;" id="map-canvas"></div>
-        <div style="text-align:left; width:40%; margin: 0 auto;">@Model.Entity.Description</div>
-        <div style="text-align:center; margin: 0 auto;"><a href="@Model.Entity.LinkToMoreInfo" target="_blank">Повече информация</a></div>
-        <div style="text-align:center; margin: 0 auto;">
-            Път до екопътеката от: @Html.DropDownListFor(m => m.PathCity, Model.GetCities(), new { onchange = "calcRoute();" })
-        <br />
-        <br />
-        </div>
+    @Html.HiddenFor(m => m.entId)
+    <div style="float:left; width:450px; margin-left:10px;">
+        <div><h3>@Model.Entity.Name</h3></div>
+		<div >@Model.Entity.Description</div>
+		<div style="margin-top:5px;"><a href="@Model.Entity.LinkToMoreInfo">Повече информация</a></div>
+    </div>
+    <div style="float:right; margin-right:10px;">
+		<div><h3>Галерия</h3></div>
         @{
-    var images = Model.GetImages();
+            var images = Model.GetImages();
                     
-            <div style="margin: 0 auto; text-align:center;" onclick="dhtmlHistory.add('location1',{message: 'backbox'});countdown()">
+            <div style="margin-bottom:10px;" onclick="dhtmlHistory.add('location1',{message: 'backbox'});countdown()">
             <a href="@Url.Content(images.First().Key)" rel="lightbox[slide]" caption="@images.First().Value">
-            <img src="@Url.Content(images.First().Key)" alt="lime" width="400" height="300" border="0" /></a>
+                <img src="@Url.Content(images.First().Key)" alt="lime" width="400" height="300" border="0" />
+            </a>
             </div>
                 
-    foreach (var image in images)
-    {
+            foreach (var image in images)
+            {
                 <a href="@Url.Content(image.Key)" rel="lightbox[slide]" caption="@image.Value"></a>
-    }
+            }
         }
-        <div style="text-align:center; margin: 0 auto;">
-           @if (Request.IsAuthenticated)
-           {
-                <input type="file" name="file" />
-                <input type="submit" value="Качи" />
-           }
-        </div>
-        <div style="margin: 0 auto;">
-        <table style="text-align:center; margin: 0 auto;">
+		<div>
         @if (Request.IsAuthenticated)
         {
-            <tr>
-                <td>
-                    @User.Identity.Name :
-                </td>
-                <td>
-                    @Html.TextAreaFor(m => m.newCommText)
-                </td>
-                <td>
-                    <input type="submit" value="Публикувай" />
-                </td>
-            </tr>
+			<input type="file" name="file" />
+			<input style="float:right" type="submit" value="Качи" />
+        }
+		</div>
+	</div>
+	<div style="clear:both;"></div>
+    
+    <div style="margin:20px;">
+		Начален Град: @Html.DropDownListFor(m => m.PathCity, Model.GetCities(), new { onchange = "calcRoute();" })
+	</div>
+	<div class="mapPanel_Style" style="margin: 0 auto; width:800px; height:500px;" id="map-canvas"></div>
+    
+    <div style="margin:0 auto; width:640px">
+		<h3>Коментари:</h3>
+	</div>
+    <div class="commentSection_Style">
+		<table style="margin:0 auto; width:560px;">
+        @if (Request.IsAuthenticated)
+        {
+			<tr>
+				<td colspan="2">
+				<div style="text-align:center;">
+				@Html.TextAreaFor(m => m.newCommText, new { style="resize:none; width:500px;", rows="3", cols="60"})
+				<br />
+				<input style="width:150px; margin-left:350px;" type="submit" value="Добави коментар" />
+				</div>
+				</td>
+			</tr>
+			<tr><td colspan="2"><hr /></td></tr>
         }
         @foreach (var comment in Model.Entity.Comments.OrderByDescending(m => m.Date))
         {
-            <tr style="border:1px solid black">
-                <td>
-                    @comment.User_Accounts.Username :
-                </td>
-                <td>
-                    @comment.Text
-                </td>
-            </tr>
+			<tr>
+				<td style="vertical-align:top; padding-left:5px; text-align:right;">
+                    <b>@(comment.User_Accounts.Username): </b>
+                    </td>
+				<td>@(comment.Text)</td>
+			</tr>
+			<tr><td colspan="2"><hr /></td></tr>
         }
-        </table>
-        </div>
-    </div>
+		</table>
+	</div>
     <script type="text/javascript" src="@Url.Content("~/Content/JavaScript/customsignsfooter.js")"></script>
 }

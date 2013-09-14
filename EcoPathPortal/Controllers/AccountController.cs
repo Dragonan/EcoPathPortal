@@ -84,25 +84,21 @@ namespace EcoPathPortal.Controllers
                 ModelState.AddModelError("captcha", captchaErrorMessage);
             }
 
+            if (_register.NameExists())
+            {
+                ModelState.AddModelError("userNameExists", "Това име се използва от друг потребител.");
+            }
+
+            if (_register.EmailExists())
+            {
+                ModelState.AddModelError("emailExists", "Този e-mail се използва от друг потребител.");
+            }
+
             if (ModelState.IsValid)
             {
-                bool valid = true;
-                if(_register.NameExists())
-                {
-                    ModelState.AddModelError("Username", "Това име се използва от друг потребител.");
-                    valid = false;
-                }
-                if (_register.EmailExists())
-                {
-                    ModelState.AddModelError("Email", "Този e-mail се използва от друг потребител.");
-                    valid = false;
-                }
-                if (valid)
-                {
-                    _register.Create();
-                    EmailManager.SendConfirmationEmail(_register.UserName);
-                    return RedirectToAction("RegSuccessful", "Account");
-                }
+                _register.Create();
+                EmailManager.SendConfirmationEmail(_register.UserName);
+                return RedirectToAction("RegSuccessful", "Account");
             }
             return View(_register);
         }

@@ -22,7 +22,7 @@ namespace EcoPathPortal
             {
                 var confirmationGuid = user.Id.ToString();
                 var verifyUrl =
-                    HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Verify/" + confirmationGuid;
+                    HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/EcoPathPortal/Account/Verify/" + confirmationGuid;
 
                 using (var client = new SmtpClient())
                 {

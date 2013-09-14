@@ -9,37 +9,37 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "Регистрацията е неуспешна.")
 
-    <div>
+    <div style="margin:0 auto;">
         <fieldset style="display: inline-block">
-            <legend>Registration</legend>
+            <legend>Регистрация</legend>
             <div class="editor-label">
                 @Html.LabelFor(r => r.UserName)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(r => r.UserName)
+                @Html.EditorFor(r => r.UserName)
                 @Html.ValidationMessageFor(r => r.UserName)
-                @Html.ValidationMessage("Username")
+                @Html.ValidationMessage("userNameExists")
             </div>
             <div class="editor-label">
                 @Html.LabelFor(r => r.Email)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(r => r.Email)
+                @Html.EditorFor(r => r.Email)
                 @Html.ValidationMessageFor(r => r.Email)
-                @Html.ValidationMessage("Email")
+                @Html.ValidationMessage("emailExists")
             </div>
             <div class="editor-label">
                 @Html.LabelFor(r => r.Password)
             </div>
             <div class="editor-field">
-                @Html.PasswordFor(r => r.Password)
+                @Html.EditorFor(r => r.Password)
                 @Html.ValidationMessageFor(r => r.Password)
             </div>
             <div class="editor-label">
                 @Html.LabelFor(r => r.ComparePassword)
             </div>
             <div class="editor-field">
-                @Html.PasswordFor(r => r.ComparePassword)
+                @Html.EditorFor(r => r.ComparePassword)
                 @Html.ValidationMessageFor(r => r.ComparePassword)
             </div>
             <div class="editor-field">

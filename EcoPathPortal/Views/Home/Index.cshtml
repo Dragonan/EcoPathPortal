@@ -8,11 +8,6 @@
 }
 
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<style type="text/css">
-    html { height: 100% }
-    body { height: 100%; margin: 0; padding: 0 }
-    #map-canvas { height: 100% }
-</style>
 <script type="text/javascript"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO5aHEtpeBnTHzFqOf4psGhCzeMXRNsTc&sensor=false&v=3">
 </script>
@@ -45,19 +40,21 @@
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
-<div style="text-align:center; margin:0 auto;">
-    <h2>Добре Дошли в Сайта!</h2>
-</div>
 
-<div style="float:left">
-    
-    <fieldset><legend>Еко Пътеки:</legend>
-        @foreach(var ecoPath in _context.EcoPaths)
+
+<div class="mapPanel_Style" style="width:900px; height:500px; margin: 25px 25px 25px 25px;" id="map-canvas"></div>
+<div class="listPanel_style">
+    @{
+        var ecoPaths = _context.EcoPaths.ToList();
+        for (var i = 0; i < ecoPaths.Count(); i+=5 )
         {
-            @Html.ActionLink(ecoPath.Name, "Index", "EcoPath", new { id = ecoPath.Id }, new { }) <br /><br />
+            <div style="float:left; margin-right:50px;">
+            @for (var j = i; j < i+5 && j < ecoPaths.Count(); j++)
+            {
+                @Html.ActionLink(ecoPaths[j].Name, "Index", "EcoPath", new { id = ecoPaths[j].Id }, new { })<br />
+            }
+            </div>
         }
-    </fieldset>
+    }
 </div>
-
-<div style="float:left; height:500px; width:40%; margin: 0 auto;" id="map-canvas">
-</div>
+<div style="clear:both;"></div>

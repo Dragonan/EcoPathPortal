@@ -9,9 +9,9 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "Въвели сте грешни данни.")
 
-    <div>
+    <div style="margin:0 auto;">
         <fieldset style="display: inline-block">
-            <legend>Login</legend>
+            <legend>Вход</legend>
             <div class="editor-label">
                 @Html.ValidationMessage("userError")
             </div>
@@ -26,7 +26,7 @@
                 @Html.LabelFor(l => l.Password)
             </div>
             <div class="editor-field">
-                @Html.PasswordFor(l => l.Password)
+                @Html.EditorFor(l => l.Password)
                 @Html.ValidationMessageFor(l => l.Password)
             </div>
             <div class="editor-label">

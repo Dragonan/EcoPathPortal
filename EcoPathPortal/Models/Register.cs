@@ -24,12 +24,15 @@ namespace EcoPathPortal.Models
 
         [Required(ErrorMessage = "Трябва да въведете парола")]
         [Display(Name = "Парола")]
-        [DataType(DataType.Password, ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [DataType(DataType.Password)]
         [StringLength(25, ErrorMessage = "{0} трябва да е между {2} и {1} символа", MinimumLength = 5)]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Трябва да потвърдите паролата")]
         [Display(Name = "Повторете Паролата")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage="Паролите не съвпадат")]
         public string ComparePassword { get; set; }
 

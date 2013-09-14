@@ -35,17 +35,21 @@ namespace EcoPathPortal.Models
         [Display(Name = "Пол")]
         public String Gender { get; set; }
 
-        [DataType(DataType.Password)]
         [Display(Name = "Сегашна Парола")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [DataType(DataType.Password)]
         public String OldPassword { get; set; }
 
         [Display(Name = "Нова Парола")]
-        [DataType(DataType.Password, ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
         [StringLength(25, ErrorMessage = "{0} трябва да е между {2} и {1} символа", MinimumLength = 5)]
+        [DataType(DataType.Password)]
         public String NewPassword { get; set; }
 
         [Display(Name = "Потвърдете Новата Парола")]
         [Compare("NewPassword", ErrorMessage = "Паролите не съвпадат")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [DataType(DataType.Password)]
         public String ComparePassword { get; set; }
 
         public User() { }

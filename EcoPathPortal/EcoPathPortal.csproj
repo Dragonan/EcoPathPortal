@@ -149,6 +149,7 @@
     <Content Include="Content\backbox.css" />
     <Content Include="Content\close1.gif" />
     <Content Include="Content\close2.gif" />
+    <Content Include="Content\JavaScript\blank.html" />
     <Content Include="Content\loading.gif" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\start.gif" />

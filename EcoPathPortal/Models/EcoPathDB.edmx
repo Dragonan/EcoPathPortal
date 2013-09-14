@@ -66,7 +66,6 @@
           <Property Name="Longitude" Type="float" />
           <Property Name="NearestCity" Type="int" />
           <Property Name="LinkToMoreInfo" Type="varchar(max)" />
-          <Property Name="Rating" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
@@ -286,7 +285,6 @@
           <Property Type="Double" Name="Longitude" />
           <Property Type="Int32" Name="NearestCity" />
           <Property Type="String" Name="LinkToMoreInfo" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="Double" Name="Rating" Nullable="false" />
           <NavigationProperty Name="City" Relationship="EcoPathDBModel.FK_EcoPath_Cities" FromRole="EcoPath" ToRole="City" />
           <NavigationProperty Name="Comments" Relationship="EcoPathDBModel.FK_Comments_EcoPath" FromRole="EcoPath" ToRole="Comment" />
           <NavigationProperty Name="Images" Relationship="EcoPathDBModel.FK_Images_EcoPath" FromRole="EcoPath" ToRole="Image" />
@@ -414,7 +412,6 @@
           <EntitySetMapping Name="EcoPaths">
             <EntityTypeMapping TypeName="EcoPathDBModel.EcoPath">
               <MappingFragment StoreEntitySet="EcoPath">
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="LinkToMoreInfo" ColumnName="LinkToMoreInfo" />
                 <ScalarProperty Name="NearestCity" ColumnName="NearestCity" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
@@ -479,10 +476,10 @@
           <ConnectorPoint PointX="5.125" PointY="2.24974609375" />
           <ConnectorPoint PointX="4.5" PointY="2.24974609375" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="EcoPathDBModel.EcoPath" Width="1.5" PointX="3" PointY="3.75" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="EcoPathDBModel.EcoPath" Width="1.5" PointX="3" PointY="3.75" Height="2.9417936197916656" />
         <AssociationConnector Association="EcoPathDBModel.FK_EcoPath_Cities" >
           <ConnectorPoint PointX="2.375" PointY="3.3552864583333326" />
-          <ConnectorPoint PointX="3" PointY="3.7499999999999991" />
+          <ConnectorPoint PointX="3" PointY="3.75" />
         </AssociationConnector>
         <EntityTypeShape EntityType="EcoPathDBModel.Comment" Width="1.5" PointX="5.125" PointY="4.125" Height="2.1725878906249996" />
         <AssociationConnector Association="EcoPathDBModel.FK_Comments_EcoPath" >
@@ -500,8 +497,8 @@
         </AssociationConnector>
         <AssociationConnector Association="EcoPathDBModel.FK_Images_Users" >
           <ConnectorPoint PointX="5.125" PointY="3.6557421874999996" />
-          <ConnectorPoint PointX="2.9340829869587219" PointY="3.6557421874999991" />
-          <ConnectorPoint PointX="2.767416320292055" PointY="3.6557421874999996" />
+          <ConnectorPoint PointX="2.9340829869587206" PointY="3.6557421874999991" />
+          <ConnectorPoint PointX="2.7674163202920536" PointY="3.6557421874999996" />
           <ConnectorPoint PointX="0.71875" PointY="3.6557421874999996" />
           <ConnectorPoint PointX="0.71875" PointY="4.25" />
         </AssociationConnector>

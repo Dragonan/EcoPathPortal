@@ -4,31 +4,37 @@
 
 <!DOCTYPE html>
 
-<html>
+<html style="min-height:100%;">
 <head>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - Еко Пътеки БГ</title>
 </head>
-<body>
-    <div>
-        @if (Request.IsAuthenticated) {
-            <text>
-                Hello, @Html.ActionLink(User.Identity.Name, "Profile", "User", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
-                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
-                    @Html.AntiForgeryToken()
-                    @Html.ActionLink("Излез", "Logout", "Account")
+<body class="background_style">
+    <div class="main_layout_style">
+        <div class="header_style">
+			<div style="width:300px; padding-left:10; float:left; color:white; cursor:pointer;" onclick="location.href='@(Url.Action("Index", "Home"))'"><h2>Български Еко Пътеки</h2></div>
+			<div class="loginPanel_style">
+                @if (Request.IsAuthenticated) {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+                        @Html.ActionLink(User.Identity.Name, "Profile", "User", routeValues: null, htmlAttributes: new { @class = "username", style="text-decoration:none;", title = "Manage" })
+                        <text>&nbsp; &nbsp;</text>
+                        @Html.AntiForgeryToken()
+                        @Html.ActionLink("Излез", "Logout", "Account", routeValues: null, htmlAttributes: new { style = "text-decoration:none;" })
+                    }
                 }
-            </text>
-        }
-        else
-        {
-            @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })<br />
-            @Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })<br />
-        }
-		@Html.ActionLink("Начало", "Index", "Home")
-    </div>
-    <div>
+                else
+                {
+                    @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", style = "text-decoration:none;" })
+                    <text>&nbsp; &nbsp;</text>
+                    @Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", style = "text-decoration:none;" })
+                }
+            </div>
+		</div>
+
         @RenderBody()
+
+        <div style="text-align:center; margin-top:10px; border-top:1px solid black; background:white">Портал за български еко-пътеки на Янко Спасов. ФМИ дипломна работа 2013</div>
     </div>
 </body>
 </html>

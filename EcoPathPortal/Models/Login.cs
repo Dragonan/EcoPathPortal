@@ -19,6 +19,8 @@ namespace EcoPathPortal.Models
 
         [Required(ErrorMessage = "Трябва да въведете парола")]
         [Display(Name = "Парола")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "Паролата не трябва да съдържа невалидни символи")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Display(Name = "Запомни ме")]

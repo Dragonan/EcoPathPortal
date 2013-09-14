@@ -641,12 +641,10 @@ namespace EcoPathPortal.Models
         /// Create a new EcoPath object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="rating">Initial value of the Rating property.</param>
-        public static EcoPath CreateEcoPath(global::System.Int32 id, global::System.Double rating)
+        public static EcoPath CreateEcoPath(global::System.Int32 id)
         {
             EcoPath ecoPath = new EcoPath();
             ecoPath.Id = id;
-            ecoPath.Rating = rating;
             return ecoPath;
         }
 
@@ -824,30 +822,6 @@ namespace EcoPathPortal.Models
         private global::System.String _LinkToMoreInfo;
         partial void OnLinkToMoreInfoChanging(global::System.String value);
         partial void OnLinkToMoreInfoChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Double Rating
-        {
-            get
-            {
-                return _Rating;
-            }
-            set
-            {
-                OnRatingChanging(value);
-                ReportPropertyChanging("Rating");
-                _Rating = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Rating");
-                OnRatingChanged();
-            }
-        }
-        private global::System.Double _Rating;
-        partial void OnRatingChanging(global::System.Double value);
-        partial void OnRatingChanged();
 
         #endregion
 
