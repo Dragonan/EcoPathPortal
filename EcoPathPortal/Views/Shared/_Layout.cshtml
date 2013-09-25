@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 
-<html style="min-height:100%;">
+<html class="html_style">
 <head>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <meta name="viewport" content="width=device-width" />
@@ -13,7 +13,7 @@
 <body class="background_style">
     <div class="main_layout_style">
         <div class="header_style">
-			<div style="width:300px; padding-left:10; float:left; color:white; cursor:pointer;" onclick="location.href='@(Url.Action("Index", "Home"))'"><h2>Български Еко Пътеки</h2></div>
+			<div style="width:300px; padding-left:10px; float:left; color:white; cursor:pointer;" onclick="location.href='@(Url.Action("Index", "Home"))'"><h2>Еко Пътеки в България</h2></div>
 			<div class="loginPanel_style">
                 @if (Request.IsAuthenticated) {
                     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {

@@ -18,26 +18,26 @@
             <div class="editor-label">
                 @Html.LabelFor(l => l.UserName)
             </div>
+            <div>@Html.ValidationMessageFor(l => l.UserName)</div>
             <div class="editor-field">
                 @Html.TextBoxFor(l => l.UserName)
-                @Html.ValidationMessageFor(l => l.UserName)
             </div>
             <div class="editor-label">
                 @Html.LabelFor(l => l.Password)
             </div>
+            <div>@Html.ValidationMessageFor(l => l.Password)</div>
             <div class="editor-field">
                 @Html.EditorFor(l => l.Password)
-                @Html.ValidationMessageFor(l => l.Password)
             </div>
+            <div>@Html.LabelFor(l => l.RememberMe)</div>
             <div class="editor-label">
                 @Html.CheckBoxFor(l => l.RememberMe)
-                @Html.LabelFor(l => l.RememberMe)
             </div>
             @if (IsPost && Convert.ToInt32(Session["FailedLogins"]) > 3)
             {
+                <div>@Html.ValidationMessage("captcha")</div>
                 <div class="editor-field">
                     @Html.Raw(Html.GenerateCaptcha("captcha", "white"))
-                    @Html.ValidationMessage("captcha")
                 </div>
                 <input type="submit" value="Влез" />
             }

@@ -32,7 +32,7 @@ namespace EcoPathPortal.Controllers
         {
             if (Convert.ToInt32(Session["FailedLogins"]) > 3 && !captchaValid)
             {
-                ModelState.AddModelError("captcha", captchaErrorMessage);
+                ModelState.AddModelError("captcha", "Въведете правилно думите от изображението");
             }
 
             if (ModelState.IsValid)
@@ -46,7 +46,7 @@ namespace EcoPathPortal.Controllers
                         EmailManager.SendConfirmationEmail(_login.UserName);
                         return View(_login);
                     }
-                    FormsAuthentication.SetAuthCookie(_login.UserName, _login.RememberMe);
+                    FormsAuthentication.SetAuthCookie(user.Username, _login.RememberMe);
                     Session.Contents.Remove("FailedLogins");
                     return RedirectToAction("Index", "Home");
                 }
@@ -81,7 +81,7 @@ namespace EcoPathPortal.Controllers
         {
             if (!captchaValid)
             {
-                ModelState.AddModelError("captcha", captchaErrorMessage);
+                ModelState.AddModelError("captcha", "Въведете правилно думите от изображението");
             }
 
             if (_register.NameExists())

@@ -71,6 +71,9 @@ namespace EcoPathPortal.Models
                     imagePaths.Add(localPath, item.Title);
             }
 
+            if (imagePaths.Count == 0)
+                imagePaths.Add("~/Content/Images/no_image.gif", "No Images");
+
             return imagePaths;
         }
     }
